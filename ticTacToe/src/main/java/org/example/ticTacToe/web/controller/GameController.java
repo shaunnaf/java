@@ -2,7 +2,6 @@ package org.example.ticTacToe.web.controller;
 
 import org.example.ticTacToe.domain.model.GameBoardModel;
 import org.example.ticTacToe.domain.service.GameService;
-import org.example.ticTacToe.web.model.GameBoardWeb;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +17,9 @@ public class GameController {
   }
 
   @PostMapping("/{gameId}")
-  public ResponseEntity<GameBoardWeb> updateGame(
+  public ResponseEntity<GameBoardModel> updateGame(
       @PathVariable Long gameId,
-      @RequestBody GameBoardWeb currentBoard) {
+      @RequestBody GameBoardModel currentBoard) {
 
     if (!gameService.validBoard(currentBoard)) {
       return ResponseEntity.badRequest().build();
