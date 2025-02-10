@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +9,7 @@ public class HhTest {
 
 
   @Test
-  public void MainTest() {
+  public void CasualTest() {
     ResumePage resumePage = new ResumePage(URL);
 
     Assertions.assertEquals("М", resumePage.getGender());
@@ -19,5 +21,18 @@ public class HhTest {
     Assertions.assertFalse(resumePage.getReadyToRelocate());
 
     Assertions.assertEquals("B2", resumePage.getLevelEnglishLanguage());
+  }
+
+  @Test
+  public void HashMapTest() {
+    Map<String, Object> expectedValue = new HashMap<>();
+    expectedValue.put(ResumePage.GENDER, "М");
+    expectedValue.put(ResumePage.AGE, 28);
+    expectedValue.put(ResumePage.CITY, "Москва");
+    expectedValue.put(ResumePage.READY_TO_RELOCATE, false);
+    expectedValue.put(ResumePage.LEVEL_ENGLISH_LANGUAGE, "B2");
+
+    ResumePage currentValue = new ResumePage(URL);
+    Assertions.assertEquals(expectedValue, currentValue.mapWithData());
   }
 }

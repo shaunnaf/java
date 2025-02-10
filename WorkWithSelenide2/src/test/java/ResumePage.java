@@ -5,6 +5,8 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.ElementsCollection;
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ResumePage {
@@ -19,6 +21,13 @@ public class ResumePage {
       "//span[@data-qa='resume-personal-address']/ancestor::p");
   private final ElementsCollection languageData = $$x(
       "//p[@data-qa=\"resume-block-language-item\"]");
+
+  public static final String GENDER = "Пол";
+  public static final String AGE = "Возраст";
+  public static final String CITY = "Город";
+  public static final String READY_TO_RELOCATE = "Готовность к переезду";
+  public static final String LEVEL_ENGLISH_LANGUAGE = "Уровень английского языка";
+
 
   public ResumePage(String URL) {
     Selenide.open(URL);
@@ -47,4 +56,17 @@ public class ResumePage {
   public String getLevelEnglishLanguage() {
     return languageData.get(1).getText().split(" — ")[1];
   }
+
+  public Map<String, Object> mapWithData() {
+    return new HashMap<>() {
+      {
+        put(GENDER, getGender());
+        put(AGE, getAge());
+        put(CITY, getCity());
+        put(READY_TO_RELOCATE, getReadyToRelocate());
+        put(LEVEL_ENGLISH_LANGUAGE, getLevelEnglishLanguage());
+      }
+    };
+  }
+
 }
