@@ -1,11 +1,21 @@
 package org.example.firstProject.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "Students")
 public class Student {
 
+  @Id
+  @GeneratedValue
   private Long id;
   private String firstName;
   private String secondName;
+  @Column(unique = true)
   private String email;
   private double GPA;
 
@@ -15,6 +25,10 @@ public class Student {
     this.secondName = secondName;
     this.email = email;
     this.GPA = gpa;
+  }
+
+  public Student() {
+
   }
 
   public double getGPA() {
