@@ -3,6 +3,7 @@ package org.example.firstProject.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -11,7 +12,7 @@ import jakarta.persistence.Table;
 public class Student {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String firstName;
   private String secondName;
@@ -21,6 +22,7 @@ public class Student {
 
 
   public Student(Long id, String firstName, String secondName, String email, double gpa) {
+    this.id = id;
     this.firstName = firstName;
     this.secondName = secondName;
     this.email = email;
@@ -29,6 +31,14 @@ public class Student {
 
   public Student() {
 
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public double getGPA() {
@@ -59,7 +69,7 @@ public class Student {
     this.email = email;
   }
 
-  public void setGPA(int GPA) {
+  public void setGPA(double GPA) {
     this.GPA = GPA;
   }
 }

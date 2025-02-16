@@ -28,16 +28,23 @@ public class StudentServiceJpa implements StudentService {
 
   @Override
   public Student updateStudent(Student student) {
-    return repository.save(student);
+    if (repository.existsById(student.getId())) {  // ✅ Проверка перед обновлением
+      return repository.save(student);
+    }
+    throw new RuntimeException("Студент с ID " + student.getId() + " не найден");
   }
 
   @Override
   public Student findByEmail(String email) {
-    return repository.findStudentByEmail(email);
+    return repository.findByEmail(email); // ✅ Исправлено имя метода
   }
 
   @Override
   public void deleteStudent(String email) {
-    repository.deleteByEmail(email);
+    if (repository.findByEmail(email) != null) {  // ✅ Проверка перед удалением
+      repository.deleteByEmail(email);
+    } else {
+      throw new RuntimeException("Студент с email " + email + " не найден");
+    }
   }
 }
