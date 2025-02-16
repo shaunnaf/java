@@ -7,12 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/students")  // ✅ Добавлен слеш в начале
-public class StudentController {     // ✅ Название класса должно быть осмысленным
+@RequestMapping("/api/v1/students")
+public class StudentController {
 
   private final StudentService service;
 
-  public StudentController(StudentService service) {  // ✅ Исправлено название класса
+  public StudentController(StudentService service) {
     this.service = service;
   }
 
@@ -23,29 +23,29 @@ public class StudentController {     // ✅ Название класса дол
 
   @PostMapping
   public ResponseEntity<Student> addStudent(
-      @RequestBody Student student) {  // ✅ Теперь возвращаем созданного студента
+      @RequestBody Student student) {
     Student savedStudent = service.addStudent(student);
     return ResponseEntity.ok(savedStudent);
   }
 
   @GetMapping("/{email}")
   public ResponseEntity<Student> findByEmail(
-      @PathVariable String email) {  // ✅ Добавлен ResponseEntity
+      @PathVariable String email) {
     Student student = service.findByEmail(email);
     return student != null ? ResponseEntity.ok(student) : ResponseEntity.notFound().build();
   }
 
-  @PutMapping("/{id}")  // ✅ Обновление по id
+  @PutMapping("/{id}")
   public ResponseEntity<Student> updateStudent(@PathVariable Long id,
       @RequestBody Student student) {
-    student.setId(id); // ✅ Убеждаемся, что обновляем правильного студента
+    student.setId(id);
     Student updatedStudent = service.updateStudent(student);
     return ResponseEntity.ok(updatedStudent);
   }
 
-  @DeleteMapping("/{id}")  // ✅ Удаление по id
+  @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
     service.deleteStudent(String.valueOf(id));
-    return ResponseEntity.noContent().build(); // ✅ Возвращаем 204 No Content
+    return ResponseEntity.noContent().build();
   }
 }

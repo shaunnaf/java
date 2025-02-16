@@ -28,7 +28,7 @@ public class StudentServiceJpa implements StudentService {
 
   @Override
   public Student updateStudent(Student student) {
-    if (repository.existsById(student.getId())) {  // ✅ Проверка перед обновлением
+    if (repository.existsById(student.getId())) {
       return repository.save(student);
     }
     throw new RuntimeException("Студент с ID " + student.getId() + " не найден");
@@ -36,12 +36,12 @@ public class StudentServiceJpa implements StudentService {
 
   @Override
   public Student findByEmail(String email) {
-    return repository.findByEmail(email); // ✅ Исправлено имя метода
+    return repository.findByEmail(email);
   }
 
   @Override
   public void deleteStudent(String email) {
-    if (repository.findByEmail(email) != null) {  // ✅ Проверка перед удалением
+    if (repository.findByEmail(email) != null) {
       repository.deleteByEmail(email);
     } else {
       throw new RuntimeException("Студент с email " + email + " не найден");

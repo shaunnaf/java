@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface RepositoryJpa extends JpaRepository<Student, Long> {
 
   @Transactional
-  void deleteByEmail(String email); // ✅ Добавлена транзакция, убран @Param
+  void deleteByEmail(String email);
 
-  Student findByEmail(String email); // ✅ Исправлено имя метода
+  Student findByEmail(String email);
 }
