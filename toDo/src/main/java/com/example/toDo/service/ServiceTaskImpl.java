@@ -55,8 +55,4 @@ public class ServiceTaskImpl implements ServiceTask {
     tasksRepository.deleteById(id);
   }
 
-  @Scheduled(fixedRate = 10000)
-  public void notification() {
-    System.out.println("Уведомление!" + LocalDateTime.now());
-  }
 }
