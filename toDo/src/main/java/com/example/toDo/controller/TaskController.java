@@ -1,32 +1,32 @@
 package com.example.toDo.controller;
 
-import com.example.toDo.model.Priority;
 import com.example.toDo.model.TaskModel;
 import com.example.toDo.service.ServiceTaskImpl;
-import java.beans.PropertyEditorSupport;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping("/tasks")
 public class TaskController {
 
   @Autowired
   private ServiceTaskImpl taskService;
 
-  @GetMapping("/tasks")
+  @GetMapping
   public String getAllTasks(@RequestParam(defaultValue = "name") String sortField,
       @RequestParam(defaultValue = "asc") String sortDir, Model model) {
     List<TaskModel> tasks = taskService.getAllSortedTasks(sortField, sortDir);
@@ -36,13 +36,13 @@ public class TaskController {
     return "tasks";
   }
 
-  @GetMapping("/tasks/new")
+  @GetMapping("new")
   public String showNewTaskForm(Model model) {
     model.addAttribute("task", new TaskModel());
     return "new-task";
   }
 
-  @PostMapping("/tasks/save")
+  @PostMapping("save")
   public String saveTask(@ModelAttribute TaskModel task) {
     taskService.addTask(task);
     return "redirect:/tasks";
@@ -53,30 +53,18 @@ public class TaskController {
     return "pomodoro";
   }
 
-  @PostMapping("/addTask")
-  public TaskModel addTask(@Validated @RequestBody TaskModel task) {
-    return taskService.addTask(task);
+  @GetMapping("/{id}")
+  @ResponseBody
+  public String updateTask(@PathVariable Long id) {
+    //taskService.updateTask(task, id);
+    //todo
+    return "Данный участок еще в разработке!";
   }
 
-  @PutMapping("/updateTask/{id}")
-  public TaskModel updateTask(@RequestBody TaskModel task, @PathVariable("id") Long id) {
-    return taskService.updateTask(task, id);
-  }
-
-  @DeleteMapping("/deleteTask/{id}")
-  public String deleteTask(TaskModel task, @PathVariable("id") Long id) {
+  @DeleteMapping("/delete/{id}")
+  public String deleteTask(@PathVariable Long id,
+      @RequestHeader(value = "Referer", required = false) String referer) {
     taskService.deleteTask(id);
-    return "Задача успешно удалена!";
-  }
-
-
-  @InitBinder
-  public void initBinder(WebDataBinder binder) {
-    binder.registerCustomEditor(Priority.class, new PropertyEditorSupport() {
-      @Override
-      public void setAsText(String text) {
-        setValue(Priority.fromString(text));
-      }
-    });
+    return referer != null ? "redirect:" + referer : "redirect:/tasks";
   }
 }

@@ -31,14 +31,16 @@
   </div>
 
   <div class="mb-3">
-    <label class="form-label">Приоритет:</label>
-    <select class="form-control" th:field="*{priority}">
+    <label for="exampleDataList" class="form-label">Приоритет:</label>
+    <input class="form-control" type="text" th:field="*{priority}" list="datalistOptions"
+           id="exampleDataList" placeholder="Введите приоритет задачи...">
+    <datalist id="datalistOptions">
       <option th:each="p : ${T(com.example.toDo.model.Priority).values()}"
               th:value="${p}"
               th:text="${p.title}"></option>
-    </select>
+    </datalist>
   </div>
-
+  
 
   <button type="submit" class="btn btn-primary">Сохранить</button>
   <a href="/tasks" class="btn btn-secondary">Отмена</a>
