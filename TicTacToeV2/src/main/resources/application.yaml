@@ -1,0 +1,9 @@
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    enabled: true

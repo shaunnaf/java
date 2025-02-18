@@ -20,8 +20,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/tasks")
 public class TaskController {
 
+  private final ServiceTaskImpl taskService;
+
   @Autowired
-  private ServiceTaskImpl taskService;
+  public TaskController(ServiceTaskImpl taskService) {
+    this.taskService = taskService;
+  }
+
 
   @GetMapping
   public String getAllTasks(@RequestParam(defaultValue = "name") String sortField,

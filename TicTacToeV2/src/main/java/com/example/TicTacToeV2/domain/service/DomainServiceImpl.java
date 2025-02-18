@@ -1,54 +1,40 @@
 package com.example.TicTacToeV2.domain.service;
 
-import static com.example.TicTacToeV2.datasource.mapper.DataSourceDomainMapper.toDataSourceCurrentGame;
-import static com.example.TicTacToeV2.datasource.mapper.DataSourceDomainMapper.toDomainCurrentGame;
-import static com.example.TicTacToeV2.datasource.mapper.DataSourceDomainMapper.toDomainGameBoard;
-import static com.example.TicTacToeV2.web.mapper.WebDomainMapper.toDomainCurrentGame;
-
-
-import com.example.TicTacToeV2.datasource.model.DataSourceCurrentGame;
-import com.example.TicTacToeV2.datasource.model.DataSourceGameBoard;
-import com.example.TicTacToeV2.datasource.repository.SavedGames;
+import com.example.TicTacToeV2.datasource.repository.RepositoryGames;
 import com.example.TicTacToeV2.domain.model.DomainCurrentGame;
-import com.example.TicTacToeV2.web.model.WebCurrentGame;
+import com.example.TicTacToeV2.domain.model.DomainGameBoard;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DomainServiceImpl implements DomainService {
 
-  private final SavedGames repository;
+  private final RepositoryGames repository;
 
-  public DomainServiceImpl(SavedGames repository) {
+  public DomainServiceImpl(RepositoryGames repository) {
     this.repository = repository;
   }
 
   @Override
   public DomainCurrentGame nextMove(DomainCurrentGame prevBoard) {
-    if (!repository.containsGame(prevBoard.getId())) {
-      throw new IllegalArgumentException("Game not found: " + prevBoard.getId());
-    }
-
-    DataSourceCurrentGame savedGame = repository.getGame(prevBoard.getId());
-    DomainCurrentGame currentGame = toDomainCurrentGame(savedGame);
+    DomainGameBoard board = prevBoard.getBoard();
+    int[][] cells = board.getBoard();
 
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
-        if (currentGame.getBoard().getBoard()[i][j] == 0) {
-          currentGame.setCellInBoard(i, j, 2);
-          repository.saveGame(toDataSourceCurrentGame(currentGame));
-          return currentGame;
+        if (cells[i][j] == 0) {
+          cells[i][j] = 2;
+          board.setBoard(cells);
+          return new DomainCurrentGame(prevBoard.getId(), board);
         }
       }
     }
-    return currentGame;
+    return prevBoard;
   }
 
-
   @Override
-  public Boolean validCurrentGame(DomainCurrentGame board) {
-    //todo
-    return true;
+  public Boolean validCurrentGame(DomainCurrentGame game) {
+    return repository.containsGame(game.getId());
   }
 
   @Override
@@ -86,21 +72,12 @@ public class DomainServiceImpl implements DomainService {
     return "DRAW";
   }
 
-  public void addNewGame(WebCurrentGame webCurrentGame) {
-    repository.saveGame(toDataSourceCurrentGame(toDomainCurrentGame(webCurrentGame)));
+  public DomainCurrentGame getGame(UUID id) {
+    return new DomainCurrentGame(id, repository.getGame(id));
   }
 
-  public boolean gameExists(UUID id) {
-    return repository.getGame(id) != null;
+  public void saveGame(DomainCurrentGame game) {
+    repository.saveGame(game);
   }
-
-  public DomainCurrentGame getGameById(UUID id) {
-    DataSourceGameBoard dataSourceGameBoard = repository.getGame(id).getBoard();
-    if (dataSourceGameBoard == null) {
-      return null;
-    }
-    return new DomainCurrentGame(id, toDomainGameBoard(dataSourceGameBoard));
-  }
-
 
 }
