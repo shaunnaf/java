@@ -1,14 +1,18 @@
 package com.example.toDo.controller;
 
+import com.example.toDo.model.Priority;
 import com.example.toDo.model.TaskModel;
 import com.example.toDo.service.ServiceTaskImpl;
+import java.beans.PropertyEditorSupport;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,5 +67,16 @@ public class TaskController {
   public String deleteTask(TaskModel task, @PathVariable("id") Long id) {
     taskService.deleteTask(id);
     return "Задача успешно удалена!";
+  }
+
+
+  @InitBinder
+  public void initBinder(WebDataBinder binder) {
+    binder.registerCustomEditor(Priority.class, new PropertyEditorSupport() {
+      @Override
+      public void setAsText(String text) {
+        setValue(Priority.fromString(text));
+      }
+    });
   }
 }

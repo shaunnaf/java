@@ -144,13 +144,6 @@
           });
       }
   }
-
-  document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden" && isRunning) {
-          showNotification();
-      }
-  });
-
   updateDisplay();
 </script>
 </body>

@@ -1,14 +1,13 @@
 package com.example.toDo.service;
 
-import static java.sql.DriverManager.println;
 
+import com.example.toDo.model.Priority;
 import com.example.toDo.model.TaskModel;
 import com.example.toDo.repository.TasksRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,6 +33,9 @@ public class ServiceTaskImpl implements ServiceTask {
 
   @Override
   public TaskModel addTask(TaskModel task) {
+    if (task.getPriority() != null) {
+      task.setPriority(Priority.fromString(task.getPriority().getTitle()));
+    }
     return tasksRepository.save(task);
   }
 
@@ -46,6 +48,10 @@ public class ServiceTaskImpl implements ServiceTask {
     taskModel.setName(task.getName());
     taskModel.setComment(task.getComment());
     taskModel.setTeg(task.getTeg());
+    if (task.getPriority() != null) {
+      task.setPriority(Priority.fromString(task.getPriority().getTitle()));
+    }
+    taskModel.setCategory(task.getCategory());
     taskModel.setDate(LocalDateTime.now());
     return tasksRepository.save(taskModel);
   }

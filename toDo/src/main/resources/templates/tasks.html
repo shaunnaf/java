@@ -27,6 +27,9 @@
       <th><a th:href="@{/tasks(sortField='comment', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'})}">Комментарий</a>
       </th>
       <th><a
+          th:href="@{/tasks(sortField='priority', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'})}">Приоритет</a>
+      </th>
+      <th><a
           th:href="@{/tasks(sortField='teg', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'})}">Тег</a>
       </th>
       <th><a th:href="@{/tasks(sortField='date', sortDir=${sortDir == 'asc' ? 'desc' : 'asc'})}">Дата</a>
@@ -42,6 +45,13 @@
         </a>
       </td>
       <td th:text="${task.comment}"></td>
+      <td>
+    <span class="badge"
+          th:text="${task.priority != null ? task.priority.title : 'Без приоритета'}"
+          th:classappend="${task.priority != null ? (task.priority.name() == 'HIGH' ? 'text-bg-danger' :
+                          (task.priority.name() == 'MIDDLE' ? 'text-bg-warning' : 'text-bg-success')) : 'text-bg-secondary'}">
+    </span>
+      </td>
       <td>
         <span class="badge bg-primary" th:text="${task.teg}"></span>
       </td>

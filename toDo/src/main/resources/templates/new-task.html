@@ -13,18 +13,32 @@
 <form action="#" th:action="@{/tasks/save}" th:object="${task}" method="post">
   <div class="mb-3">
     <label class="form-label">Название:</label>
-    <input type="text" th:field="*{name}" class="form-control" required>
+    <input type="text" th:field="*{name}" class="form-control"
+           placeholder="Введите название задачи..."
+           required>
   </div>
 
   <div class="mb-3">
     <label class="form-label">Комментарий:</label>
-    <textarea th:field="*{comment}" class="form-control"></textarea>
+    <textarea th:field="*{comment}" class="form-control"
+              placeholder="Введите комментарий к задаче..."></textarea>
   </div>
 
   <div class="mb-3">
     <label class="form-label">Тег:</label>
-    <input type="text" th:field="*{teg}" class="form-control">
+    <input type="text" th:field="*{teg}" class="form-control"
+           placeholder="Введите тег задачи...">
   </div>
+
+  <div class="mb-3">
+    <label class="form-label">Приоритет:</label>
+    <select class="form-control" th:field="*{priority}">
+      <option th:each="p : ${T(com.example.toDo.model.Priority).values()}"
+              th:value="${p}"
+              th:text="${p.title}"></option>
+    </select>
+  </div>
+
 
   <button type="submit" class="btn btn-primary">Сохранить</button>
   <a href="/tasks" class="btn btn-secondary">Отмена</a>

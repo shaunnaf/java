@@ -1,6 +1,8 @@
 package com.example.toDo.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,11 +25,16 @@ public class TaskModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  
+
   private String name;
   private String comment;
   private String teg;
+  private String category;
+  
+  @Enumerated(EnumType.STRING)
+  private Priority priority;
 
   @CreationTimestamp
   private LocalDateTime date;
 }
+
