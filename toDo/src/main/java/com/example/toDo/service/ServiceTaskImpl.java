@@ -32,11 +32,11 @@ public class ServiceTaskImpl implements ServiceTask {
   }
 
   @Override
-  public TaskModel addTask(TaskModel task) {
+  public void addTask(TaskModel task) {
     if (task.getPriority() != null) {
       task.setPriority(Priority.fromString(task.getPriority().getTitle()));
     }
-    return tasksRepository.save(task);
+    tasksRepository.save(task);
   }
 
   @Override

@@ -26,13 +26,11 @@ public enum Priority {
     if (value == null || value.isEmpty()) {
       return null;
     }
-
     for (Priority priority : Priority.values()) {
       if (priority.title.equalsIgnoreCase(value) || priority.name().equalsIgnoreCase(value)) {
         return priority;
       }
     }
-
     throw new IllegalArgumentException("Неизвестный приоритет: " + value);
   }
 }

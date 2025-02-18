@@ -8,7 +8,7 @@ public interface ServiceTask {
   //CRUD actions
   List<TaskModel> findAllTask();
 
-  TaskModel addTask(TaskModel task);
+  void addTask(TaskModel task);
 
   TaskModel updateTask(TaskModel task, Long id);
 

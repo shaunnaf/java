@@ -6,8 +6,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +27,7 @@ public class TaskModel {
   private String name;
   private String comment;
   private String teg;
-  
+
   @Enumerated(EnumType.STRING)
   private Priority priority;
 
