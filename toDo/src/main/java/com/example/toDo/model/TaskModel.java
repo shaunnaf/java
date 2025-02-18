@@ -29,7 +29,6 @@ public class TaskModel {
   private String name;
   private String comment;
   private String teg;
-  private String category;
   
   @Enumerated(EnumType.STRING)
   private Priority priority;

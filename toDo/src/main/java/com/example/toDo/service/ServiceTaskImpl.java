@@ -51,7 +51,6 @@ public class ServiceTaskImpl implements ServiceTask {
     if (task.getPriority() != null) {
       task.setPriority(Priority.fromString(task.getPriority().getTitle()));
     }
-    taskModel.setCategory(task.getCategory());
     taskModel.setDate(LocalDateTime.now());
     return tasksRepository.save(taskModel);
   }
